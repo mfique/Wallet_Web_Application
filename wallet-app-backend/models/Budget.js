@@ -1,10 +1,14 @@
-const mongoose = require('mongoose');
+const pool = require('../config/db');
 
-const budgetSchema = new mongoose.Schema({
-    amount: { type: Number, required: true },
-    startDate: { type: Date, required: true },
-    endDate: { type: Date, required: true },
-    notificationsEnabled: { type: Boolean, default: true },
-});
+const createBudgetTable = `
+CREATE TABLE IF NOT EXISTS budgets (
+  id SERIAL PRIMARY KEY,
+  amount NUMERIC NOT NULL,
+  start_date DATE NOT NULL,
+  end_date DATE NOT NULL,
+  notifications_enabled BOOLEAN DEFAULT TRUE
+);
+`;
+pool.query(createBudgetTable);
 
-module.exports = mongoose.model('Budget', budgetSchema);
+module.exports = {};

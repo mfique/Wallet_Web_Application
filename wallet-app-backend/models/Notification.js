@@ -1,9 +1,13 @@
-const mongoose = require('mongoose');
+const pool = require('../config/db');
 
-const notificationSchema = new mongoose.Schema({
-    message: { type: String, required: true },
-    createdAt: { type: Date, default: Date.now },
-    read: { type: Boolean, default: false },
-});
+const createNotificationTable = `
+CREATE TABLE IF NOT EXISTS notifications (
+  id SERIAL PRIMARY KEY,
+  message TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  read BOOLEAN DEFAULT FALSE
+);
+`;
+pool.query(createNotificationTable);
 
-module.exports = mongoose.model('Notification', notificationSchema);
+module.exports = {};

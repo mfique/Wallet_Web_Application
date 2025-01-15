@@ -1,9 +1,13 @@
-const mongoose = require('mongoose');
+const pool = require('../config/db');
 
-const accountSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    type: { type: String, enum: ['bank', 'mobile_money', 'cash'], required: true },
-    balance: { type: Number, required: true, default: 0 },
-});
+const createAccountTable = `
+CREATE TABLE IF NOT EXISTS accounts (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  type VARCHAR(50) NOT NULL,
+  balance NUMERIC DEFAULT 0
+);
+`;
+pool.query(createAccountTable);
 
-module.exports = mongoose.model('Account', accountSchema);
+module.exports = {};

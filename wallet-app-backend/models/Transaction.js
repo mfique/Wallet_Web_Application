@@ -1,13 +1,17 @@
-const mongoose = require('mongoose');
+const pool = require('../config/db');
 
-const transactionSchema = new mongoose.Schema({
-    type: { type: String, enum: ['income', 'expense'], required: true },
-    amount: { type: Number, required: true },
-    account: { type: mongoose.Schema.Types.ObjectId, ref: 'Account', required: true },
-    date: { type: Date, default: Date.now },
-    category: { type: String, required: true },
-    subcategory: { type: String },
-    description: { type: String },
-});
+const createTransactionTable = `
+CREATE TABLE IF NOT EXISTS transactions (
+  id SERIAL PRIMARY KEY,
+  type VARCHAR(50) NOT NULL,
+  amount NUMERIC NOT NULL,
+  account_id INT REFERENCES accounts(id),
+  date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  category VARCHAR(255) NOT NULL,
+  subcategory VARCHAR(255),
+  description TEXT
+);
+`;
+pool.query(createTransactionTable);
 
-module.exports = mongoose.model('Transaction', transactionSchema);
+module.exports = {};
