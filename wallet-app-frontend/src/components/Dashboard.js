@@ -8,7 +8,7 @@ import { Bar } from 'react-chartjs-2';
 function Dashboard() {
     const [accounts, setAccounts] = useState([]);
     const [transactions, setTransactions] = useState([]);
-    const [notifications, setNotifications] = useState([]);
+    const [_notifications, setNotifications] = useState([]);
     const [budget, setBudget] = useState(null);
     const [chartData, setChartData] = useState({});
     const [loading, setLoading] = useState(true);
