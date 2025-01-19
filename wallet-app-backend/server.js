@@ -25,15 +25,9 @@ app.use('/transactions', authMiddleware, transactionRoutes);
 app.use('/budgets', authMiddleware, budgetRoutes);
 app.use('/notifications', authMiddleware, notificationRoutes);
 
-// Test Database Connection
-const sql = require('./config/db');
+
 app.get('/', async (req, res) => {
-    try {
-        const result = await sql`SELECT version()`;
-        res.send({ message: 'Database connected successfully!', version: result[0].version });
-    } catch (err) {
-        res.status(500).send({ error: 'Failed to connect to the database', details: err.message });
-    }
+    res.send("Wallet API")
 });
 
 // Initialize the database and start the server
