@@ -4,25 +4,34 @@ import { fetchTransactions } from '../api/transaction';
 import { Bar } from 'react-chartjs-2';
 
 function Reports() {
-    const [chartData, setChartData] = useState({});
+    const [chartData, setChartData] = useState({
+        labels: [],
+        datasets: [],
+    });
     const [budget, setBudget] = useState(null);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const { data: budgets } = await fetchBudgets();
-                if (budgets.length > 0) {
+                // Fetch budgets
+                const budgets = await fetchBudgets();
+                if (budgets && budgets.length > 0) {
                     setBudget(budgets[0]);
                 }
 
-                const { data: transactions } = await fetchTransactions();
-                const income = transactions
-                    .filter((tx) => tx.type === 'income')
-                    .reduce((sum, tx) => sum + tx.amount, 0);
-                const expense = transactions
-                    .filter((tx) => tx.type === 'expense')
-                    .reduce((sum, tx) => sum + tx.amount, 0);
+                // Fetch transactions
+                const transactions = await fetchTransactions();
 
+                // Ensure data exists before processing
+                const income = transactions
+                    ? transactions.filter((tx) => tx.type === 'income').reduce((sum, tx) => sum + tx.amount, 0)
+                    : 0;
+                const expense = transactions
+                    ? transactions.filter((tx) => tx.type === 'expense').reduce((sum, tx) => sum + tx.amount, 0)
+                    : 0;
+
+                // Update chart data
                 setChartData({
                     labels: ['Income', 'Expense'],
                     datasets: [
@@ -36,17 +45,23 @@ function Reports() {
                     ],
                 });
             } catch (err) {
-                alert('Failed to fetch report data');
+                console.error('Error fetching data:', err);
+                setError('Failed to fetch report data. Please try again later.');
             }
         };
 
         fetchData();
-    }, []);
+    }, []); // Empty array ensures this runs only once when the component mounts
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-6">
             <div className="bg-white shadow-lg rounded-lg w-full max-w-4xl p-6">
                 <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">Reports</h1>
+
+                {error && (
+                    <p className="text-red-600 text-center mb-4">{error}</p>
+                )}
+
                 {budget && (
                     <div className="mb-8">
                         <h2 className="text-2xl font-semibold text-gray-700 mb-4">Budget Overview</h2>
@@ -66,6 +81,7 @@ function Reports() {
                         </div>
                     </div>
                 )}
+
                 <div className="w-full h-96">
                     <h2 className="text-2xl font-semibold text-gray-700 mb-4 text-center">
                         Financial Summary

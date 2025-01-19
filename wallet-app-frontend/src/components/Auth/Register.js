@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { register } from '../../api/auth';
 import { useNavigate } from 'react-router-dom';
 
 function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post(`${process.env.REACT_APP_API_URL}/auth/register`, { email, password });
-            alert('Registration successful!');
-            navigate('/login');
+            await register(email, password, name);
+            navigate('/login');  // Redirect to login after successful registration
         } catch (err) {
-            alert('Error during registration');
+            // Error handling if registration fails
         }
     };
 
@@ -23,6 +23,19 @@ function Register() {
             <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
                 <h1 className="text-2xl font-bold text-gray-800 mb-6 text-center">Register</h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
+                    <div>
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                            Name
+                        </label>
+                        <input
+                            id="name"
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            required
+                            className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+                        />
+                    </div>
                     <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                             Email

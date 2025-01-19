@@ -1,32 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { fetchNotifications, markNotificationAsRead } from '../api/notification';
 
 function Notifications() {
     const [notifications, setNotifications] = useState([]);
+    const [error, setError] = useState('');
 
     useEffect(() => {
-        const fetchNotifications = async () => {
+        const loadNotifications = async () => {
             try {
-                const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/notifications`, {
-                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-                });
+                const data = await fetchNotifications();
                 setNotifications(data);
             } catch (err) {
-                alert('Failed to fetch notifications');
+                setError(err.message || 'Failed to fetch notifications');
             }
         };
 
-        fetchNotifications();
+        loadNotifications();
     }, []);
 
-    const markAsRead = async (id) => {
+    const handleMarkAsRead = async (id) => {
         try {
-            await axios.put(`${process.env.REACT_APP_API_URL}/notifications/${id}`, {}, {
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-            });
-            setNotifications(notifications.filter((notif) => notif.id !== id));
+            await markNotificationAsRead(id);
+            setNotifications((prevNotifications) =>
+                prevNotifications.filter((notif) => notif.id !== id)
+            );
         } catch (err) {
-            alert('Failed to mark notification as read');
+            alert(err.message || 'Failed to mark notification as read');
         }
     };
 
@@ -34,6 +33,9 @@ function Notifications() {
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
             <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-2xl">
                 <h1 className="text-2xl font-bold text-gray-800 mb-4">Notifications</h1>
+                {error && (
+                    <p className="text-red-500 text-center mb-4">{error}</p>
+                )}
                 {notifications.length > 0 ? (
                     <ul className="divide-y divide-gray-200">
                         {notifications.map((notif) => (
@@ -43,7 +45,7 @@ function Notifications() {
                             >
                                 <span className="text-sm">{notif.message}</span>
                                 <button
-                                    onClick={() => markAsRead(notif.id)}
+                                    onClick={() => handleMarkAsRead(notif.id)}
                                     className="bg-blue-600 text-white px-4 py-1 text-sm rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                                 >
                                     Mark as Read

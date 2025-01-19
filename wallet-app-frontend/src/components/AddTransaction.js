@@ -22,7 +22,7 @@ function AddTransaction() {
             }
         };
 
-        loadAccounts();
+        loadAccounts().then(r => console.log(r));
     }, []);
 
     const handleSubmit = async (e) => {

@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
-import AuthContext from '../../context/AuthContext';
+import AuthContext from '../../context/AuthContext'; // Path to AuthContext
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
-    const { login } = useContext(AuthContext);
+    const { login } = useContext(AuthContext); // Get the login function from AuthContext
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
@@ -12,8 +12,13 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            // Send POST request to login API
             const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, { email, password });
+
+            // Save the token and set user in context
             login(data.token);
+
+            // Redirect to dashboard upon successful login
             navigate('/dashboard');
         } catch (err) {
             alert('Invalid credentials');
