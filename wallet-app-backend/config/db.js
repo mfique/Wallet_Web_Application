@@ -2,13 +2,10 @@ const { Pool } = require('pg');
 
 // Load environment variables for database configuration
 const useSSL = process.env.DB_SSL === 'true';
+const isProd  = process.env.NODE_ENV === "production"
 
 const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
-    port: parseInt(process.env.DB_PORT, 10),
+   connectionString: isProd ? process.env.DATABASE_URL : process.env.DATABASE_URL_DEV, 
     ssl: useSSL ? { rejectUnauthorized: false } : false,
 });
 
