@@ -1,57 +1,46 @@
 import React, { useEffect, useState } from 'react';
 import { fetchAccounts } from '../api/account';
-import { fetchTransactions } from '../api/transaction';
 import { fetchNotifications } from '../api/notification';
 import { fetchBudgets } from '../api/budget';
 import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js"
+
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 function Dashboard() {
     const [accounts, setAccounts] = useState([]);
-    const [transactions, setTransactions] = useState([]);
-    const [, setNotifications] = useState([]);
+    const [notifications, setNotifications] = useState([]);
     const [budget, setBudget] = useState(null);
     const [chartData, setChartData] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
-    // Enhanced fetchData with error handling
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Fetching data from APIs
                 const accountsData = await fetchAccounts();
-                const transactionsData = await fetchTransactions();
                 const notificationsData = await fetchNotifications();
                 const budgetsData = await fetchBudgets();
 
-                // Setting data to state
-                setAccounts(accountsData);
-                setTransactions(transactionsData);
-                setNotifications(notificationsData);
-                setBudget(budgetsData[0]);
+                setAccounts(accountsData || []);
+                setNotifications(notificationsData || []);
+                setBudget(budgetsData[0] || null);
 
-                // Processing transactions to create chart data
-                const income = transactionsData
-                    .filter((tx) => tx.type === 'income')
-                    .reduce((sum, tx) => sum + tx.amount, 0);
-
-                const expense = transactionsData
-                    .filter((tx) => tx.type === 'expense')
-                    .reduce((sum, tx) => sum + tx.amount, 0);
-
+                // Example static chart data (you can modify this based on your use case)
                 setChartData({
                     labels: ['Income', 'Expense'],
                     datasets: [
                         {
                             label: 'Financial Summary',
-                            data: [income, expense],
+                            data: [5000, 3000], // Replace with dynamic data if needed
                             backgroundColor: ['#36A2EB', '#FF6384'],
                         },
                     ],
                 });
             } catch (err) {
-                console.error('Error fetching data:', err); // Log error for debugging
-                setError('Failed to fetch data');
+                console.error('Error fetching dashboard data:', err);
+                setError('Failed to fetch dashboard data. Please try again later.');
             } finally {
                 setLoading(false);
             }
@@ -60,16 +49,14 @@ function Dashboard() {
         fetchData();
     }, []);
 
-    // If loading, show loading state
     if (loading) {
         return (
             <div className="flex items-center justify-center min-h-screen bg-gray-100">
-                <p className="text-lg text-gray-600">Loading...</p>
+                <p className="text-lg text-gray-600">Loading dashboard...</p>
             </div>
         );
     }
 
-    // If error occurs, show error message
     if (error) {
         return (
             <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -94,11 +81,11 @@ function Dashboard() {
                             </div>
                             <div>
                                 <p className="text-gray-600 text-sm">Start Date</p>
-                                <p className="text-lg font-bold">{budget.start_date}</p>
+                                <p className="text-lg font-bold">{new Date(budget.start_date).toLocaleDateString()}</p>
                             </div>
                             <div>
                                 <p className="text-gray-600 text-sm">End Date</p>
-                                <p className="text-lg font-bold">{budget.end_date}</p>
+                                <p className="text-lg font-bold">{new Date(budget.end_date).toLocaleDateString()}</p>
                             </div>
                         </div>
                     </div>
@@ -113,7 +100,7 @@ function Dashboard() {
                             options={{
                                 responsive: true,
                                 maintainAspectRatio: false,
-                                plugins: { legend: { display: true } },
+                                plugins: {legend: {display: true}},
                             }}
                         />
                     </div>
@@ -141,25 +128,19 @@ function Dashboard() {
                     )}
                 </div>
 
-                {/* Transactions Section */}
+                {/* Notifications Section */}
                 <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-                    <h2 className="text-2xl font-semibold mb-4">Transactions</h2>
-                    {transactions.length > 0 ? (
-                        <ul className="divide-y divide-gray-200">
-                            {transactions.map((transaction) => (
-                                <li key={transaction.id} className="py-4">
-                                    <p className="text-sm text-gray-600">
-                                        {transaction.date} -{' '}
-                                        <span className="font-semibold">{transaction.category}</span>
-                                    </p>
-                                    <p className="text-lg font-bold text-gray-800">
-                                        ${transaction.amount}
-                                    </p>
+                    <h2 className="text-2xl font-semibold mb-4">Notifications</h2>
+                    {notifications.length > 0 ? (
+                        <ul>
+                            {notifications.map((notif) => (
+                                <li key={notif.id} className="py-2">
+                                    <p className="text-sm text-gray-600">{notif.message}</p>
                                 </li>
                             ))}
                         </ul>
                     ) : (
-                        <p className="text-gray-500">No transactions available</p>
+                        <p className="text-gray-500">No new notifications</p>
                     )}
                 </div>
             </div>

@@ -1,4 +1,4 @@
-const pool = require('../config/db');
+const {pool} = require('../config/db');
 
 exports.createTransaction = async (req, res) => {
     const { type, amount, account_id, category, subcategory, description } = req.body;

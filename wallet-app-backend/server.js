@@ -25,9 +25,11 @@ app.use('/transactions', authMiddleware, transactionRoutes);
 app.use('/budgets', authMiddleware, budgetRoutes);
 app.use('/notifications', authMiddleware, notificationRoutes);
 
+app.use(express.static('/client/build'))
+
 
 app.get('/', async (req, res) => {
-    res.send("Wallet API")
+   res.send("Hello World!");
 });
 
 // Initialize the database and start the server

@@ -1,4 +1,4 @@
-const pool = require('../config/db');
+const {pool} = require('../config/db');
 
 exports.createBudget = async (req, res) => {
     const { amount, start_date, end_date, notifications_enabled } = req.body;

@@ -1,4 +1,4 @@
-const pool = require('../config/db');
+const {pool} = require('../config/db');
 
 exports.createNotification = async (req, res) => {
     const { message } = req.body;

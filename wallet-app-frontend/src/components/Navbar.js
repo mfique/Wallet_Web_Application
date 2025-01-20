@@ -32,6 +32,14 @@ function Navbar() {
                     </li>
                     <li>
                         <Link
+                            to="/transactions"
+                            className="text-gray-600 hover:text-blue-600 font-medium"
+                        >
+                            Transactions
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
                             to="/reports"
                             className="text-gray-600 hover:text-blue-600 font-medium"
                         >
