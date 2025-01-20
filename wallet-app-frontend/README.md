@@ -1,70 +1,95 @@
-# Getting Started with Create React App
+## Wallet Web Application - Frontend
+This is the frontend for the Wallet Web Application, a React-based personal finance management platform. It provides features for managing accounts, tracking transactions, setting budgets, and viewing financial summaries.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Getting Started
+This project was bootstrapped with Create React App.
 
-## Available Scripts
-
+## Prerequisites
+Node.js (v14 or higher)
+npm or yarn
+Available Scripts
 In the project directory, you can run:
 
-### `npm start`
+### npm start
+Runs the app in development mode.
+Open http://localhost:3000 to view it in the browser.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+The app will reload if you make edits.
+You will also see any lint errors in the console.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## npm test
+Launches the test runner in the interactive watch mode.
+See the section about running tests for more information.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
+## npm run build
+Builds the app for production to the build folder.
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The build is minified, and the filenames include hashes.
+The app is ready for deployment!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## npm run eject
+Note: This is a one-way operation. Once you eject, you can’t go back!
+This command will copy all configuration files and dependencies directly into the project, allowing full control over the setup.
 
-### `npm run eject`
+## Environment Variables
+To configure the app for development and production, create a .env file in the project root. Below are the required environment variables:
+.env
+REACT_APP_API_URL=http://localhost:5000
+Replace the value of REACT_APP_API_URL with the backend URL (e.g., https://your-backend.onrender.com) for production.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Project Structure
+src/
+├── api/                    # API integration with Axios
+│   ├── account.js          # API methods for accounts
+│   ├── transaction.js      # API methods for transactions
+│   ├── budget.js           # API methods for budgets
+│   ├── notification.js     # API methods for notifications
+├── components/             # Reusable components
+│   ├── Navbar.js           # Navigation bar
+│   ├── Dashboard.js        # Main dashboard
+│   ├── ProtectedRoute.js   # Route protection component
+├── pages/                  # Page-level components
+│   ├── Login.js            # Login page
+│   ├── Signup.js           # Signup page
+│   ├── Reports.js          # Reports page
+│   ├── Notifications.js    # Notifications page
+├── context/                # Context API for authentication
+├── App.js                  # Main app component
+├── index.js                # Entry point
+## Key Features
+User Authentication: Secure login and signup with token-based authentication.
+Accounts Management: View and manage multiple accounts.
+Transaction Tracking: Add and categorize income and expenses.
+Budget Management: Set and track budget limits.
+Notifications: Stay updated with alerts for transactions and budget status.
+Data Visualization: Interactive charts for financial summaries using Chart.js.
+## Running the Frontend
+Clone the repository:
+git clone https://github.com/your-username/wallet-web-application.git
+cd wallet-web-application/frontend
+Install dependencies:
+npm install
+Set environment variables: Create a .env file in the root directory:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+REACT_APP_API_URL=http://localhost:5000
+Start the development server:
+npm start
+Access the app: Open http://localhost:3000 in your browser.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Deployment
+Netlify Deployment
+Build the project:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+npm run build
+Deploy to Netlify:
+
+Drag and drop the build/ folder into the Netlify dashboard.
+Set environment variables (REACT_APP_API_URL) in the Netlify settings.
+Production URL: Your app will be accessible at the Netlify-provided URL.
 
 ## Learn More
+To learn more about React, check out the React documentation.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+To learn more about Create React App, refer to its documentation.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

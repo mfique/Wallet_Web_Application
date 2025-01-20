@@ -1,14 +1,14 @@
-##Wallet Web Application
+## Wallet Web Application
 A full-stack web application to manage personal finances, including accounts, transactions, budgets, and notifications. The app features user authentication and data visualization through charts.
 
-##Features
+## Features
 User Authentication: Secure login and signup.
 Accounts Management: Add, view, and manage different types of accounts (bank, cash, mobile money).
 Transactions: Record and categorize income and expenses.
 Budgets: Set budgets with start and end dates.
 Notifications: Receive updates about transactions and budget status.
 Dashboard: View financial summaries, account details, and transaction history.
-##Technologies Used
+## Technologies Used
 Frontend
 React.js
 Tailwind CSS
