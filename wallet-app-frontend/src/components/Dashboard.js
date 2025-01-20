@@ -3,6 +3,9 @@ import { fetchAccounts } from '../api/account';
 import { fetchNotifications } from '../api/notification';
 import { fetchBudgets } from '../api/budget';
 import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js"
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 function Dashboard() {
     const [accounts, setAccounts] = useState([]);

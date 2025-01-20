@@ -28,14 +28,9 @@ app.use('/notifications', authMiddleware, notificationRoutes);
 app.use(express.static('/client/build'))
 
 // Test Database Connection
-const sql = require('./config/db');
+
 app.get('/', async (req, res) => {
-    try {
-        const result = await sql`SELECT version()`;
-        res.send({ message: 'Database connected successfully!', version: result[0].version });
-    } catch (err) {
-        res.status(500).send({ error: 'Failed to connect to the database', details: err.message });
-    }
+   res.send("Hello World!");
 });
 
 // Initialize the database and start the server
