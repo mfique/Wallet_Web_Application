@@ -5,6 +5,7 @@ import { fetchBudgets } from '../api/budget';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js"
 
+
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 function Dashboard() {
@@ -99,7 +100,7 @@ function Dashboard() {
                             options={{
                                 responsive: true,
                                 maintainAspectRatio: false,
-                                plugins: { legend: { display: true } },
+                                plugins: {legend: {display: true}},
                             }}
                         />
                     </div>

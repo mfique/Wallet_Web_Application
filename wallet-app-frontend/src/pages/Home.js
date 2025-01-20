@@ -6,7 +6,7 @@ function Home() {
         <div
             className="min-h-screen bg-cover bg-center text-white"
             style={{
-                backgroundImage: "url('https://example.com/background.jpg')",
+                backgroundImage: "url('../../public/back.jpg')",
             }}
         >
             <div className="flex flex-col items-center justify-center min-h-screen bg-black bg-opacity-50 px-6">

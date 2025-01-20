@@ -6,7 +6,6 @@ const API_URL = process.env.REACT_APP_API_URL;
 const getAuthToken = () => {
     return localStorage.getItem('token');
 };
-
 // Fetch Transactions
 export const fetchTransactions = async () => {
     const token = getAuthToken();
