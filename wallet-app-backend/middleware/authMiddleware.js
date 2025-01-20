@@ -11,14 +11,22 @@ const authMiddleware = (req, res, next) => {
         const token = authHeader.replace('Bearer ', '').trim();
 
         // Verify the token
-        // Attach decoded user data to the request object
-        req.user = jwt.verify(token, process.env.JWT_SECRET);
+        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+            if (err) {
+                console.error('Token verification failed:', err.message);
+                return res.status(401).json({ message: 'Invalid or expired token.' });
+            }
 
-        // Proceed to the next middleware or route handler
-        next();
+            // Attach decoded user data to the request object
+            req.user = decoded;
+            console.log('Token verified successfully. User:', req.user);  // Debugging line
+
+            // Proceed to the next middleware or route handler
+            next();
+        });
     } catch (err) {
-        console.error('Token verification failed:', err.message);
-        return res.status(401).json({ message: 'Invalid or expired token.' });
+        console.error('Unexpected error in authMiddleware:', err.message);
+        return res.status(500).json({ message: 'Internal server error' });
     }
 };
 

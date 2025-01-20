@@ -25,6 +25,8 @@ app.use('/transactions', authMiddleware, transactionRoutes);
 app.use('/budgets', authMiddleware, budgetRoutes);
 app.use('/notifications', authMiddleware, notificationRoutes);
 
+app.use(express.static('/client/build'))
+
 // Test Database Connection
 const sql = require('./config/db');
 app.get('/', async (req, res) => {
